@@ -103,12 +103,12 @@ function Blinker_OnLoad()
     this:RegisterEvent("PLAYER_LOGOUT");
 end
 function Blinker_OnEvent(event)
-    if (event == "ADDON_LOADED" and arg1 == "Blinker") then
+    if event == "ADDON_LOADED" and arg1 == "Blinker" then
         if pcall(UnitXP, "nop", "nop") then
             _unitxp_loaded = true;
         end
         this:UnregisterEvent("ADDON_LOADED");
-    elseif (event == "PLAYER_LOGIN") then
+    elseif event == "PLAYER_LOGIN" then
         if not _unitxp_loaded then
             Print("Error: UnitXP is not loaded.");
             return;
@@ -116,7 +116,7 @@ function Blinker_OnEvent(event)
 
         _last_spellCast = GetTime();
         Blinker_Enable()
-    elseif (event == "PLAYER_LOGOUT") then
+    elseif event == "PLAYER_LOGOUT" then
         Blinker_Disable()
     end
 end
