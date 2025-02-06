@@ -1,6 +1,6 @@
-# Blinker (WoW 1.12.1)
+# Blinker 
 Lets you cast Blink by pressing Shift while using the movement keys.
-
+Addon for WoW 1.12.1
 
 
 ### Optional Dependency
