@@ -77,6 +77,7 @@ function Blinker_Enable()
         return;
     end
 
+    _last_spell_cast = GetTime();
     _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
     if _debug then
         Print("Blinker_Enable: id=" .. _timer_id);
@@ -116,7 +117,6 @@ function Blinker_OnEvent(event)
             end
         end
 
-        _last_spell_cast = GetTime();
         Blinker_Enable()
     elseif event == "PLAYER_LOGOUT" then
         Blinker_Disable()
