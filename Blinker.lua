@@ -1,4 +1,4 @@
-local _unitxp_loaded, _timer_id, _prev_x, _prev_y, _last_spellCast;
+local _unitxp_loaded, _timer_id, _prev_x, _prev_y, _last_spell_cast, _last_update_time;
 local _debug = false;
 
 local function Print(msg)
@@ -29,7 +29,7 @@ local function SpellReady(spellname)
     end
 
     local start, duration = GetSpellCooldown(id, 0);
-    if start == 0 and duration == 0 and _last_spellCast + 1 <= GetTime() then
+    if start == 0 and duration == 0 and _last_spell_cast + 1 <= GetTime() then
         return true;
     end
 end
@@ -69,28 +69,30 @@ function Blinker_Enable()
         return;
     end
 
-    _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
-    if _debug then
-        Print("Blinker_Enable: id=" .. _timer_id);
-        Status()
+    if _unitxp_loaded then
+        _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
+        if _debug then
+            Print("Blinker_Enable: id=" .. _timer_id);
+            Status()
+        end
+    else
+        BlinkerFrame:SetScript("OnUpdate", function ()
+            -- Limit frequency to 20Hz. Slow computer might need it
+            if (GetTime() < _last_update_time + (1 / 20)) then
+                return;
+            else
+                _last_update_time = GetTime();
+                Blinker()
+            end        
+        end);
     end
     Print("is enabled.")
 end
 function Blinker_Disable()
-    if _debug then
-        Print("_DEBUG: clearing all timers");
-        for i = 0, 200 do
-            UnitXP("timer", "disarm", i);
-        end
-        if _timer_id then
-            _timer_id = nil;
-        end
-    else
-        if _timer_id then
-            Print("Blinker_Disabled: id=" .. _timer_id);
-            UnitXP("timer", "disarm", _timer_id);
-            _timer_id = nil;
-        end
+    if _timer_id then
+        Print("Blinker_Disabled: id=" .. _timer_id);
+        UnitXP("timer", "disarm", _timer_id);
+        _timer_id = nil;
     end
     if _debug then
         Status()
@@ -114,7 +116,7 @@ function Blinker_OnEvent(event)
             return;
         end
 
-        _last_spellCast = GetTime();
+        _last_spell_cast = GetTime();
         Blinker_Enable()
     elseif event == "PLAYER_LOGOUT" then
         Blinker_Disable()
