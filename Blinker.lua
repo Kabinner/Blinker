@@ -71,7 +71,6 @@ function Blinker_Enable()
     end
     if _timer_id and _debug then
         Status()
-        return;
     end
 
     _last_spell_cast = GetTime();
