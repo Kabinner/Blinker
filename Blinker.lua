@@ -15,7 +15,7 @@ local function SpellId(spellname)
         local _, _, _, numSpells = GetSpellTabInfo(i);
         for j = 1, numSpells do
             local spellName = GetSpellName(id, BOOKTYPE_SPELL);
-            if (spellName == spellname) then
+            if spellName == spellname then
                 return id;
             end
             id = id + 1;
@@ -36,7 +36,7 @@ local function SpellReady(spellname)
 end
 
 local function Status()
-    local txt = ""
+    local txt = "";
     local n = UnitXP("timer", "size");
     if _timer_id then
         txt = "id: " .. _timer_id;
@@ -70,14 +70,14 @@ function Blinker_Enable()
         return;
     end
     if _timer_id and _debug then
-        Status()
+        Status();
     end
 
     _last_spell_cast = GetTime();
     _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
     if _debug then
         Print("Blinker_Enable: id=" .. _timer_id);
-        Status()
+        Status();
     end
     Print("is enabled.")
 end
@@ -94,7 +94,7 @@ function Blinker_Disable()
         _timer_id = nil;
     end
     if _debug then
-        Status()
+        Status();
     end
     Print("is disabled.")
 end
