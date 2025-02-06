@@ -1,4 +1,5 @@
-local _unitxp_loaded, _timer_id, _prev_x, _prev_y, _last_spell_cast, _last_update_time;
+local _unitxp_loaded, _timer_id, _prev_x, _prev_y, _last_spell_cast;
+local _last_update_time = 0;
 local _debug = false;
 
 local function Print(msg)
@@ -35,10 +36,10 @@ local function SpellReady(spellname)
 end
 
 local function Status()
-    if _unitxp_loaded == true then
+    if _unitxp_loaded then
         local txt = ""
         local n = UnitXP("timer", "size");
-        if _timer_id => 0 then
+        if _timer_id then
             txt = "id: " .. _timer_id;
         end
         Print("Status:" .. txt .. " Running: #" .. n);
@@ -60,20 +61,20 @@ end
 
 function Blinker()
     local x, y = GetPlayerMapPosition("player");
-    if isMoving(x, y) and SpellReady("Blink") and IsShiftKeyDown() then
+    if IsMoving(x, y) and SpellReady("Blink") and IsShiftKeyDown() then
         CastSpellByName("Blink");
     end
 end
 
 function Blinker_Enable()
-    if _timer_id => 0 and _debug == true then
+    if _timer_id and _debug then
         Status()
         return;
     end
 
-    if _unitxp_loaded == true then
+    if _unitxp_loaded then
         _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
-        if _debug == true then
+        if _debug then
             Print("Blinker_Enable: id=" .. _timer_id);
             Status()
         end
@@ -91,12 +92,12 @@ function Blinker_Enable()
     Print("is enabled.")
 end
 function Blinker_Disable()
-    if _timer_id => 0 then
+    if _timer_id then
         Print("Blinker_Disabled: id=" .. _timer_id);
         UnitXP("timer", "disarm", _timer_id);
         _timer_id = nil;
     end
-    if _debug == true then
+    if _debug then
         Status()
     end
     Print("is disabled.")
@@ -114,10 +115,9 @@ function Blinker_OnEvent(event)
         this:UnregisterEvent("ADDON_LOADED");
     elseif event == "PLAYER_LOGIN" then
         if not _unitxp_loaded then
-            if _debug == true then
+            if _debug then
                 Print("Error: UnitXP is not loaded.");
             end
-            return;
         end
 
         _last_spell_cast = GetTime();
