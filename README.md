@@ -14,8 +14,8 @@ Addon for WoW 1.12.1
 
 
 ### Optional Dependency
+1. UnitXP_SP3 [https://github.com/allfoxwy/UnitXP_SP3]
 ```
-UnitXP_SP3 [https://github.com/allfoxwy/UnitXP_SP3]
 Uses UnitXP_SP3 when available, as it consumes fewer resources.
 ```
 
