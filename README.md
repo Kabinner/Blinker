@@ -1,4 +1,4 @@
-# Blinker
+# Blinker (WoW 1.12.1)
 Lets you cast Blink by pressing Shift while using the movement keys.
 
 
