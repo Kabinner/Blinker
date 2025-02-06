@@ -114,7 +114,9 @@ function Blinker_OnEvent(event)
         this:UnregisterEvent("ADDON_LOADED");
     elseif event == "PLAYER_LOGIN" then
         if not _unitxp_loaded then
-            Print("Error: UnitXP is not loaded.");
+            if _debug then
+                Print("Error: UnitXP is not loaded.");
+            end
             return;
         end
 
