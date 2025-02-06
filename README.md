@@ -20,8 +20,7 @@ Uses UnitXP_SP3 when available, as it consumes fewer resources.
 ```
 
 ### Credits
-```
-https://github.com/allfoxwy/UnitXP_SP3/wiki/Timer-facility
-https://github.com/allfoxwy/Threat
-https://turtle-wow.org/
-```
+1. Timer-facility [https://github.com/allfoxwy/UnitXP_SP3/wiki/Timer-facility]
+2. Threat [https://github.com/allfoxwy/Threat]
+3. Turtle WoW [https://turtle-wow.org/]
+
