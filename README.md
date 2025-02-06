@@ -9,7 +9,7 @@ UnitXP_SP3 [https://github.com/allfoxwy/UnitXP_SP3]
 Uses UnitXP_SP3 when available as consumes less resources.
 ```
 
-### Credits/Inspiration
+### Credits
 ```
 https://github.com/allfoxwy/UnitXP_SP3/wiki/Timer-facility
 https://github.com/allfoxwy/Threat
