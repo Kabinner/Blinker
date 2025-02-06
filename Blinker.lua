@@ -87,6 +87,9 @@ function Blinker_Enable()
 end
 function Blinker_Disable()
     if not _unitxp_loaded then
+        if _debug then
+            Print("Error: UnitXP is not loaded.");
+        end
         return;
     end
     if _timer_id then
@@ -111,12 +114,6 @@ function Blinker_OnEvent(event)
         end
         this:UnregisterEvent("ADDON_LOADED");
     elseif event == "PLAYER_LOGIN" then
-        if not _unitxp_loaded then
-            if _debug then
-                Print("Error: UnitXP is not loaded.");
-            end
-        end
-
         Blinker_Enable()
     elseif event == "PLAYER_LOGOUT" then
         Blinker_Disable()
