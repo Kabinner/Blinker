@@ -67,13 +67,12 @@ function Blinker()
 end
 
 function Blinker_Enable()
-    if _timer_id and _debug then
-        Status()
-        return;
-    end
-
     if not _unitxp_loaded then
         Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].");
+        return;
+    end
+    if _timer_id and _debug then
+        Status()
         return;
     end
 
