@@ -44,7 +44,7 @@ local function Status()
         Print("Status:" .. txt .. " Running: #" .. n);
     end
 end
-local function isMoving(x, y)
+local function IsMoving(x, y)
     if not _prev_x or not _prev_y then
         _prev_x, _prev_y = GetPlayerMapPosition("player");
     end
