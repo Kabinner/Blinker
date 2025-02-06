@@ -73,17 +73,21 @@ function Blinker_Enable()
     end
 
     if not _unitxp_loaded then
-        Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].")
-    else
-        _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
-        if _debug then
-            Print("Blinker_Enable: id=" .. _timer_id);
-            Status()
-        end
-        Print("is enabled.")
+        Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].");
+        return;
     end
+
+    _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
+    if _debug then
+        Print("Blinker_Enable: id=" .. _timer_id);
+        Status()
+    end
+    Print("is enabled.")
 end
 function Blinker_Disable()
+    if not _unitxp_loaded then
+        return;
+    end
     if _timer_id then
         Print("Blinker_Disabled: id=" .. _timer_id);
         UnitXP("timer", "disarm", _timer_id);
