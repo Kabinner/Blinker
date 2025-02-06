@@ -11,7 +11,7 @@ Addon for WoW 1.12.1
 
 ### Installation
 1. Open `Code` dropdown menu (slightly to the top right)
-2. Select `Downloand as ZIP`
+2. Select `Download as ZIP`
 3. Extract downloaded zip into `/Interface/AddOns`
 4. Rename folder to `Blinker` from Blinker-master
 
