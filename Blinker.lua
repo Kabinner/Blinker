@@ -72,24 +72,16 @@ function Blinker_Enable()
         return;
     end
 
-    if _unitxp_loaded then
+    if not _unitxp_loaded then
+        Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].")
+    else
         _timer_id = UnitXP("timer", "arm", 100, 100, "Blinker");
         if _debug then
             Print("Blinker_Enable: id=" .. _timer_id);
             Status()
         end
-    else
-        BlinkerFrame:SetScript("OnUpdate", function ()
-            -- Limit frequency to 20Hz. Slow computer might need it
-            if (GetTime() < _last_update_time + (1 / 20)) then
-                return;
-            else
-                _last_update_time = GetTime();
-                Blinker()
-            end        
-        end);
+        Print("is enabled.")
     end
-    Print("is enabled.")
 end
 function Blinker_Disable()
     if _timer_id then
