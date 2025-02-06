@@ -36,14 +36,12 @@ local function SpellReady(spellname)
 end
 
 local function Status()
-    if _unitxp_loaded then
-        local txt = ""
-        local n = UnitXP("timer", "size");
-        if _timer_id then
-            txt = "id: " .. _timer_id;
-        end
-        Print("Status:" .. txt .. " Running: #" .. n);
+    local txt = ""
+    local n = UnitXP("timer", "size");
+    if _timer_id then
+        txt = "id: " .. _timer_id;
     end
+    Print("Status:" .. txt .. " Running: #" .. n);
 end
 local function IsMoving(x, y)
     if not _prev_x or not _prev_y then
