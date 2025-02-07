@@ -61,6 +61,7 @@ function Blinker()
     local x, y = GetPlayerMapPosition("player");
     if IsMoving(x, y) and SpellReady("Blink") and IsShiftKeyDown() then
         CastSpellByName("Blink");
+        _last_spell_cast = GetTime();
     end
 end
 
