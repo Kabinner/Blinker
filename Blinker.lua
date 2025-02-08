@@ -19,26 +19,6 @@ function UnitXPUtil:del(id)
     self.timers[id] = nil
 end
 
-Blinker = {
-    Frame = nil,
-    UnitXP = false, debug = false,
-    prev_x = nil, prev_y = nil, 
-    last_spell_cast = GetTime(),
-
-    TooltipFrame = nil,
-    MinimapFrame = nil,
-    MinimapButtonFrame = nil,
-}
-
-function Blinker:new()
-    return setmetatable(Blinker, { __index = Blinker })
-end
-function Blinker:init()
-    if not pcall(UnitXP, "nop", "nop") then
-        self.UnitXP = false
-    end   
-end
-
 Addon = {
     Frame = nil
 }
@@ -60,6 +40,27 @@ function Addon:new(class)
 
     setmetatable(Addon, { __index = Addon })
     return class:new()
+end
+
+Blinker = {
+    Frame = nil,
+    UnitXP = false, debug = false,
+    prev_x = nil, prev_y = nil, 
+    last_spell_cast = GetTime(),
+
+    TooltipFrame = nil,
+    MinimapFrame = nil,
+    MinimapButtonFrame = nil,
+}
+
+function Blinker:new()
+    return setmetatable(Blinker, { __index = Blinker })
+end
+
+function Blinker:load()
+    if not pcall(UnitXP, "nop", "nop") then
+        self.UnitXP = false
+    end   
 end
 
 function Blinker:enable()
@@ -85,6 +86,7 @@ blinker:onLoad(function ()
             spell_name = "Blink"
         }
     end
+    self:load()
 end)
 
 blinker:onLogin(function () 
