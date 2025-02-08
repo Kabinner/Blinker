@@ -64,6 +64,11 @@ function Blinker:load()
     if not pcall(UnitXP, "nop", "nop") then
         self.UnitXP = false
     end   
+    if not Blinker_Settings then
+        Blinker_Settings = {
+            spell_name = "Blink"
+        }
+    end
 end
 
 function Blinker:enable()
@@ -85,19 +90,6 @@ end
 
 timer = Timer:new()
 blinker = new Addon(Blinker)
-blinker:onLoad(function () 
-    if not Blinker_Settings then
-        Blinker_Settings = {
-            spell_name = "Blink"
-        }
-    end
-    self:load()
-end)
-
-blinker:onLogin(function () 
-    self:enable()
-end)
-
-blinker:onLogout(function ()
-    self:disable()
-end)
+blinker:on("ADDON_LOADED", self:load)
+blinker:on("PLAYER_LOGIN", self:enable)
+blinker:on("PLAYER_LOGOUT", self:disable)
