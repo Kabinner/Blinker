@@ -81,7 +81,7 @@ function Blinker:disable()
     Print('Disabled.')
 end
 
--- Initialize
+-- Implement Addon
 
 timer = Timer:new()
 blinker = new Addon(Blinker)
