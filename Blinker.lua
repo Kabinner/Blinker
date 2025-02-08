@@ -49,16 +49,12 @@ function Addon:new(class)
     self.Frame:RegisterEvent("PLAYER_LOGOUT")
     self.Frame:SetScript('OnEvent', function ()
         if event == "ADDON_LOADED" and arg1 == "Blinker" then
-            if not Blinker_Settings then
-                Blinker_Settings = {
-                    spell_name = "Blink"
-                }
-            end
+            super.onLoad()
             this:UnregisterEvent("ADDON_LOADED")
         elseif event == "PLAYER_LOGIN" then
-            self:enable()
+            super.onLogin()
         elseif event == "PLAYER_LOGOUT" then
-            self:disable()
+            super.onLogout()
         end
     end)
 
@@ -82,5 +78,16 @@ timer = Timer:new()
 
 blinker = Blinker:new()
 addon = new Addon(Blinker)
-blinker:init()
+blinker:onLoad(function () 
+    if not Blinker_Settings then
+    Blinker_Settings = {
+        spell_name = "Blink"
+    }
+end)
+blinker:onLogin(function () 
+    self:enable()
+end)
+blinker:onLogout(function ()
+    self:disable()
+end)
 
