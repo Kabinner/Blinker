@@ -58,7 +58,7 @@ function Blinker:init()
     end)
 end
 function Blinker:enable()
-    if not self.UnitXP.loaded then
+    if not self.UnitXP then
         Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].");
         return;
     end
