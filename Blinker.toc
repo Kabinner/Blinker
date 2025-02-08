@@ -5,4 +5,4 @@
 ## Author: Kabinner
 ## SavedVariablesPerCharacter: Blinker_Settings
 
-Blinker.xml
+Blinker.lua
