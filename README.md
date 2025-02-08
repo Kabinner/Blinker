@@ -4,7 +4,7 @@ Lets you cast A spell (default: Blink) by pressing Shift while using the movemen
 
 Minimap Button:
   Right-clicking: Change the spell.
-  Left-clicking: will toggle on/off.
+  Left-clicking: Toggle on/off.
   Shift: Drag the icon.
 
 Functions:
