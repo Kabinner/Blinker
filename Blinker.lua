@@ -1,55 +1,55 @@
 local _debug = false;
 local _is_active
 local _unitxp_loaded, _timer_id, _timer_button_move_id, _timer_tooltip_id
-local _prev_x, _prev_y, _last_spell_cast;
-local _last_update_time = 0;
-local TooltipFrame, MinimapFrame, MinimapButtonFrame;
+local _prev_x, _prev_y, _last_spell_cast
+local _last_update_time = 0
+local TooltipFrame, MinimapFrame, MinimapButtonFrame
 
-local function print_r ( t ) 
-    local print_r_cache={}
-    local function sub_print_r(t,indent)
+local function print_r(t)
+    local print_r_cache = {}
+    local function sub_print_r(t, indent)
         if (print_r_cache[tostring(t)]) then
-            print(indent.."*"..tostring(t))
+            print(indent .. "*" .. tostring(t))
         else
-            print_r_cache[tostring(t)]=true
-            if type(t)=="table" then
+            print_r_cache[tostring(t)] = true
+            if type(t) == "table" then
                 for i in t do
                     local val = t[i]
-                    if (type(val)=="table") then
-                        print(indent.."#["..i.."] => "..tostring(t).." {")
-                        sub_print_r(val,indent..string.rep(" ",string.len(i)+8))
-                        print(indent..string.rep(" ",string.len(i)+6).."}")
-                    elseif (type(val)=="string") then
-                        print(indent.."#["..i..'] => "'..val..'"')
+                    if (type(val) == "table") then
+                        print(indent .. "#[" .. i .. "] => " .. tostring(t) .. " {")
+                        sub_print_r(val, indent .. string.rep(" ", string.len(i) + 8))
+                        print(indent .. string.rep(" ", string.len(i) + 6) .. "}")
+                    elseif (type(val) == "string") then
+                        print(indent .. "#[" .. i .. '] => "' .. val .. '"')
                     else
-                        print(indent.."#["..i.."] => "..tostring(val))
+                        print(indent .. "#[" .. i .. "] => " .. tostring(val))
                     end
                 end
-                for pos,val in pairs(t) do
+                for pos, val in pairs(t) do
                     if type(pos) ~= "number" or math.floor(pos) ~= pos or (pos < 1 or pos > tLen) then
-                        if (type(val)=="table") then
-                            print(indent.."["..pos.."] => "..tostring(t).." {")
-                            sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
-                            print(indent..string.rep(" ",string.len(pos)+6).."}")
-                        elseif (type(val)=="string") then
-                            print(indent.."["..pos..'] => "'..val..'"')
+                        if (type(val) == "table") then
+                            print(indent .. "[" .. pos .. "] => " .. tostring(t) .. " {")
+                            sub_print_r(val, indent .. string.rep(" ", string.len(pos) + 8))
+                            print(indent .. string.rep(" ", string.len(pos) + 6) .. "}")
+                        elseif (type(val) == "string") then
+                            print(indent .. "[" .. pos .. '] => "' .. val .. '"')
                         else
-                            print(indent.."["..pos.."] => "..tostring(val))
+                            print(indent .. "[" .. pos .. "] => " .. tostring(val))
                         end
                     end
                 end
             else
-                print(indent..tostring(t))
+                print(indent .. tostring(t))
             end
         end
     end
-        
-    if (type(t)=="table") then
-        print(tostring(t).." {")
-        sub_print_r(t,"  ")
+
+    if (type(t) == "table") then
+        print(tostring(t) .. " {")
+        sub_print_r(t, "  ")
         print("}")
     else
-        sub_print_r(t,"  ")
+        sub_print_r(t, "  ")
     end
 
     print()
@@ -133,7 +133,9 @@ function TooltipFrame_Hide()
     TooltipFrame:Hide()
 end
 function MinimapButtonFrame_OnMove()
-    if IsShiftKeyDown() then return end
+    if IsShiftKeyDown() then
+        return
+    end
 
     MinimapButtonFrame:StopMovingOrSizing()
     UnitXP("timer", "disarm", _timer_button_move_id)
@@ -148,7 +150,8 @@ function Blinker_UI()
                 Blinker_Settings.spell_name = StaticPopup1EditBox:GetText()
                 TooltipFrame_Show(UIParent, "Successfully set to: " .. Blinker_Settings.spell_name)
             else
-                TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0, 0.0)
+                TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0,
+                    0.0)
             end
         end,
         OnCancel = function()
@@ -159,24 +162,28 @@ function Blinker_UI()
         maxLetters = 50,
         timeout = 0,
         whileDead = true,
-        hideOnEscape = true,
+        hideOnEscape = true
     }
 
     TooltipFrame = CreateFrame("GameTooltip", "BLINKER_UI_FRAME_TOOLTIP", UIParent, "GameTooltipTemplate")
 
     MinimapButtonFrame = CreateFrame("Button", "BLINKER_UI_FRAME_MINIMAP_BUTTON", Minimap)
-    MinimapButtonFrame:SetWidth(24)  
-    MinimapButtonFrame:SetHeight(24)  
+    MinimapButtonFrame:SetWidth(24)
+    MinimapButtonFrame:SetHeight(24)
     MinimapButtonFrame:SetFrameStrata("MEDIUM")
     MinimapButtonFrame:SetMovable(true)
     MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
-	MinimapButtonFrame:EnableMouse(true)
+    MinimapButtonFrame:EnableMouse(true)
     MinimapButtonFrame:RegisterForClicks("LeftButtonDown", "RightButtonDown");
     MinimapButtonFrame:SetNormalTexture("Interface\\Icons\\Spell_Arcane_Blink")
     MinimapButtonFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
     MinimapButtonFrame:SetScript("OnEnter", function(self, event)
         local str = ""
-        if _timer_id then str = str .. "active" else str = str .. "inactive" end
+        if _timer_id then
+            str = str .. "active"
+        else
+            str = str .. "inactive"
+        end
 
         TooltipFrame_Show(MinimapButtonFrame, str .. ": " .. Blinker_Settings.spell_name)
     end)
@@ -204,7 +211,6 @@ function Blinker_UI()
     end)
 end
 
-
 function Blinker()
     local x, y = GetPlayerMapPosition("player");
     if IsMoving(x, y) and SpellReady(Blinker_Settings.spell_name) and IsShiftKeyDown() then
@@ -220,10 +226,10 @@ function Blinker_Enable()
     end
 
     if not Blinker_Settings then
-		Blinker_Settings = {
-			spell_name = "Blink",
-		}
-	end
+        Blinker_Settings = {
+            spell_name = "Blink"
+        }
+    end
 
     if _timer_id and _debug then
         Status()
