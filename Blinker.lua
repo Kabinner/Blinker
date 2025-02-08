@@ -113,6 +113,7 @@ end
 function TooltipFrame_Show(parent, text, r, g, b)
     if _timer_tooltip_id then
         UnitXP("timer", "disarm", _timer_tooltip_id)
+        _timer_tooltip_id = nil
     end
 
     anchor = "ANCHOR_CURSOR"
@@ -136,6 +137,7 @@ function MinimapButtonFrame_OnMove()
 
     MinimapButtonFrame:StopMovingOrSizing()
     UnitXP("timer", "disarm", _timer_button_move_id)
+    _timer_button_move_id = nil
 end
 function Blinker_UI()
     StaticPopupDialogs["BLINKER_UI_FRAME_DIALOG_SPELL"] = {
@@ -183,6 +185,7 @@ function Blinker_UI()
         if IsShiftKeyDown() then
             if _timer_button_move_id then
                 UnitXP("timer", "disarm", _timer_button_move_id)
+                _timer_button_move_id = nil
             end
             this:StartMoving()
             _timer_button_move_id = UnitXP("timer", "arm", 200, 200, "MinimapButtonFrame_OnMove");

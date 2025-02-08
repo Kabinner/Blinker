@@ -1,0 +1,8 @@
+## Interface: 11200
+## Title: Blinker
+## DefaultState: enabled
+## Notes: Blinks while holding shift and moving
+## Author: Kabinner
+## SavedVariablesPerCharacter: Blinker_Settings
+
+Blinker.xml
