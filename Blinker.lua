@@ -88,8 +88,10 @@ end
 
 -- Initialize Addon
 
+addon = Addon:new()
+
 timer = Timer:new()
-blinker = new Addon(Blinker)
-blinker:on("ADDON_LOADED", self:load)
-blinker:on("PLAYER_LOGIN", self:enable)
-blinker:on("PLAYER_LOGOUT", self:disable)
+blinker = Blinker:new()
+addon:on("ADDON_LOADED", blinker:load)
+addon:on("PLAYER_LOGIN", blinker:enable)
+addon:on("PLAYER_LOGOUT", blinker:disable)
