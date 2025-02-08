@@ -1,9 +1,18 @@
 # Blinker 
 ```
 Lets you cast A spell (default: Blink) by pressing Shift while using the movement keys.
-You can change the spell with right-clicking the minimap icon. 
-Left-clicking will toggle on/off.
 Addon for WoW 1.12.1
+
+Minimap Button:
+  Right-clicking: Change the spell.
+  Left-clicking: will toggle on/off.
+  Shift: Drag the icon.
+
+Functions:
+  Could be used in macro's. 
+  /script Blinker_Enable()
+  /script Blinker_Disable()
+
 ```
 ```
 Changelog:
