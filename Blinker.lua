@@ -23,7 +23,7 @@ function Addon:new(class)
     return class:new()
 end
 
--- Define
+-- Implement Addon
 Timer = {
     timers = {}
 }
@@ -81,7 +81,7 @@ function Blinker:disable()
     Print('Disabled.')
 end
 
--- Implement Addon
+-- Initialize Addon
 
 timer = Timer:new()
 blinker = new Addon(Blinker)
