@@ -1,9 +1,15 @@
 # Blinker 
 ```
 Lets you cast Blink by pressing Shift while using the movement keys.
-```
-```
 Addon for WoW 1.12.1
+```
+```
+Changelog:
+
+    8/2/25 - Added Minimap Button
+        Move with shift.
+        Left click is toggle on/off
+        Right click is select Spell
 ```
 
 ## Required Dependency
