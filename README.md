@@ -1,6 +1,8 @@
 # Blinker 
 ```
-Lets you cast Blink by pressing Shift while using the movement keys.
+Lets you cast A spell (default: Blink) by pressing Shift while using the movement keys.
+You can change the spell with right-clicking the minimap icon. 
+Left-clicking will toggle on/off.
 Addon for WoW 1.12.1
 ```
 ```
