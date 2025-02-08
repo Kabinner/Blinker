@@ -58,8 +58,10 @@ function Addon:new(class)
         end
     end)
 
-    return setmetatable(Addon, { __index = Addon })
+    setmetatable(Addon, { __index = Addon })
+    return class:new()
 end
+
 function Blinker:enable()
     if not self.UnitXP then
         Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].");
@@ -69,25 +71,26 @@ function Blinker:enable()
     timer:add("Blinker", 100);
     Print("is enabled.")
 end
+
 function Blinker:disable()
     timer:del("Blinker")
     Print('Disabled.')
 end
 
 timer = Timer:new()
-
-blinker = Blinker:new()
-addon = new Addon(Blinker)
+blinker = new Addon(Blinker)
 blinker:onLoad(function () 
     if not Blinker_Settings then
-    Blinker_Settings = {
-        spell_name = "Blink"
-    }
+        Blinker_Settings = {
+            spell_name = "Blink"
+        }
+    end
 end)
+
 blinker:onLogin(function () 
     self:enable()
 end)
+
 blinker:onLogout(function ()
     self:disable()
 end)
-
