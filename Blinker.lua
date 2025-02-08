@@ -63,11 +63,11 @@ function Blinker:enable()
         return;
     end
 
-    self.UnitXP:timer("Blinker", 100);
+    timer:add("Blinker", 100);
     Print("is enabled.")
 end
 function Blinker:disable()
-    self.UnitXP:disable("Blinker")
+    timer:del("Blinker")
     Print('Disabled.')
 end
 
