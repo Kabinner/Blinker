@@ -1,22 +1,17 @@
-UnitXPUtil = {
-    loaded = false,
+Timer = {
     timers = {}
 }
-function UnitXPUtil:new()
-    if pcall(UnitXP, "nop", "nop") then
-        self.loaded = true
-    end
-
-    return setmetatable(UnitXPUtil, { __index = UnitXPUtil })
+function Timer:new()
+    return setmetatable(Timer, { __index = Timer })
 end
-function UnitXPUtil:timer(id, ms)
+function Timer:add(id, ms)
     if self.timers[id] then
         UnitXP("timer", "disarm", id)
     end
     self.timers[id] = UnitXP("timer", "arm", ms, ms, id);
     return self.timers[id]
 end
-function UnitXPUtil:disable(id)
+function UnitXPUtil:del(id)
     if not self.timers[id] then
         Printf()
     end
@@ -25,9 +20,8 @@ function UnitXPUtil:disable(id)
 end
 
 Blinker = {
-    UnitXP = UnitXPUtil:new(),
     Frame = nil,
-    enabled = false, debug = false,
+    UnitXP = false, debug = false,
     prev_x = nil, prev_y = nil, 
     last_spell_cast = GetTime(),
 
@@ -40,6 +34,10 @@ function Blinker:new()
     return setmetatable(Blinker, { __index = Blinker })
 end
 function Blinker:init()
+    if not pcall(UnitXP, "nop", "nop") then
+        self.UnitXP = false
+    end
+    
     self.Frame = CreateFrame("Frame", "BLINKER_UI_FRAME")
     self.Frame:RegisterEvent("ADDON_LOADED")
     self.Frame:RegisterEvent("PLAYER_LOGIN")
@@ -73,5 +71,7 @@ function Blinker:disable()
     Print('Disabled.')
 end
 
-Blinker = Blinker:new()
-Blinker:init()
+timer = Timer:new()
+
+blinker = Blinker:new()
+blinker:init()
