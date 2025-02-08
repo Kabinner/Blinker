@@ -36,9 +36,14 @@ end
 function Blinker:init()
     if not pcall(UnitXP, "nop", "nop") then
         self.UnitXP = false
-    end
-    
-    self.Frame = CreateFrame("Frame", "BLINKER_UI_FRAME")
+    end   
+end
+
+Addon = {
+    Frame = nil
+}
+function Addon:new(class)
+    self.Frame = CreateFrame("Frame")
     self.Frame:RegisterEvent("ADDON_LOADED")
     self.Frame:RegisterEvent("PLAYER_LOGIN")
     self.Frame:RegisterEvent("PLAYER_LOGOUT")
@@ -56,6 +61,8 @@ function Blinker:init()
             self:disable()
         end
     end)
+
+    return setmetatable(Addon, { __index = Addon })
 end
 function Blinker:enable()
     if not self.UnitXP then
@@ -74,4 +81,6 @@ end
 timer = Timer:new()
 
 blinker = Blinker:new()
+addon = new Addon(Blinker)
 blinker:init()
+
