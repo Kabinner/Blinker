@@ -1,23 +1,4 @@
-Timer = {
-    timers = {}
-}
-function Timer:new()
-    return setmetatable(Timer, { __index = Timer })
-end
-function Timer:add(id, ms)
-    if self.timers[id] then
-        UnitXP("timer", "disarm", id)
-    end
-    self.timers[id] = UnitXP("timer", "arm", ms, ms, id);
-    return self.timers[id]
-end
-function UnitXPUtil:del(id)
-    if not self.timers[id] then
-        Printf()
-    end
-    UnitXP("timer", "disarm", self.timers[id])
-    self.timers[id] = nil
-end
+-- Simpler Addon lib
 
 Addon = {
     Frame = nil
@@ -40,6 +21,28 @@ function Addon:new(class)
 
     setmetatable(Addon, { __index = Addon })
     return class:new()
+end
+
+-- Define
+Timer = {
+    timers = {}
+}
+function Timer:new()
+    return setmetatable(Timer, { __index = Timer })
+end
+function Timer:add(id, ms)
+    if self.timers[id] then
+        UnitXP("timer", "disarm", id)
+    end
+    self.timers[id] = UnitXP("timer", "arm", ms, ms, id);
+    return self.timers[id]
+end
+function UnitXPUtil:del(id)
+    if not self.timers[id] then
+        Printf()
+    end
+    UnitXP("timer", "disarm", self.timers[id])
+    self.timers[id] = nil
 end
 
 Blinker = {
@@ -77,6 +80,8 @@ function Blinker:disable()
     timer:del("Blinker")
     Print('Disabled.')
 end
+
+-- Initialize
 
 timer = Timer:new()
 blinker = new Addon(Blinker)
