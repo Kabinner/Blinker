@@ -37,3 +37,4 @@ Changelog:
 2. Threat [https://github.com/allfoxwy/Threat]
 3. Turtle WoW [https://turtle-wow.org/]
 4. 1.12.1 API [https://wowpedia.fandom.com/wiki/World_of_Warcraft_API?oldid=352751]
+5. Lua 5.0 [https://www.lua.org/manual/5.0/manual.html]
