@@ -33,8 +33,8 @@ Changelog:
 4. Rename folder to `Blinker` from Blinker-master
 
 ### Credits
-1. Timer-facility [https://github.com/allfoxwy/UnitXP_SP3/wiki/Timer-facility]
-2. Threat [https://github.com/allfoxwy/Threat]
-3. Turtle WoW [https://turtle-wow.org/]
+1. Turtle WoW [https://turtle-wow.org/]
+2. Timer-facility [https://github.com/allfoxwy/UnitXP_SP3/wiki/Timer-facility]
+3. Threat [https://github.com/allfoxwy/Threat]
 4. 1.12.1 API [https://wowpedia.fandom.com/wiki/World_of_Warcraft_API?oldid=352751]
 5. Lua 5.0 [https://www.lua.org/manual/5.0/manual.html]
