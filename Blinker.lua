@@ -162,7 +162,7 @@ function Blinker_UI()
     MinimapButtonFrame:EnableMouse(true)
     MinimapButtonFrame:SetMovable(true)
     MinimapButtonFrame:SetUserPlaced(true)
-    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
+    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap)
 
     MinimapButtonFrame:SetWidth(24)
     MinimapButtonFrame:SetHeight(24)
@@ -265,10 +265,11 @@ function Blinker_OnEvent(event)
         if pcall(UnitXP, "nop", "nop") then
             _unitxp_loaded = true
         end
+        Blinker_UI()
+
         this:UnregisterEvent("ADDON_LOADED")
     elseif event == "PLAYER_LOGIN" then
         Blinker_Enable()
-        Blinker_UI()
     elseif event == "PLAYER_LOGOUT" then
         Blinker_Disable()
     end
