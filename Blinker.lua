@@ -132,15 +132,7 @@ end
 function TooltipFrame_Hide()
     TooltipFrame:Hide()
 end
-function MinimapButtonFrame_OnMove()
-    if IsShiftKeyDown() then
-        return
-    end
 
-    MinimapButtonFrame:StopMovingOrSizing()
-    UnitXP("timer", "disarm", _timer_button_move_id)
-    _timer_button_move_id = nil
-end
 function Blinker_UI()
     StaticPopupDialogs["BLINKER_UI_FRAME_DIALOG_SPELL"] = {
         text = "Enter spell name:",
@@ -172,8 +164,8 @@ function Blinker_UI()
     MinimapButtonFrame:SetHeight(24)
     MinimapButtonFrame:SetFrameStrata("MEDIUM")
     MinimapButtonFrame:SetMovable(true)
-    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
     MinimapButtonFrame:EnableMouse(true)
+    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
     MinimapButtonFrame:RegisterForClicks("LeftButtonDown", "RightButtonDown");
     MinimapButtonFrame:SetNormalTexture("Interface\\Icons\\Spell_Arcane_Blink")
     MinimapButtonFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -187,17 +179,17 @@ function Blinker_UI()
 
         TooltipFrame_Show(MinimapButtonFrame, str .. ": " .. Blinker_Settings.spell_name)
     end)
+    MinimapButtonFrame:RegisterForDrag("LeftButton")
+    MinimapButtonFrame:SetScript("OnDragStart", function() if IsShiftKeyDown() then MinimapButtonFrame:StartMoving() end end)
+    MinimapButtonFrame:SetScript("OnDragStop", function() MinimapButtonFrame:StopMovingOrSizing() end)
+
 
     MinimapButtonFrame:SetScript("OnClick", function(self)
         if IsShiftKeyDown() then
-            if _timer_button_move_id then
-                UnitXP("timer", "disarm", _timer_button_move_id)
-                _timer_button_move_id = nil
-            end
-            this:StartMoving()
-            _timer_button_move_id = UnitXP("timer", "arm", 200, 200, "MinimapButtonFrame_OnMove");
+            return
+        end
 
-        elseif arg1 == "LeftButton" then
+        if arg1 == "LeftButton" then
             if _timer_id then
                 Blinker_Disable()
                 TooltipFrame_Show(MinimapButtonFrame, Blinker_Settings.spell_name .. " is disabled.")
