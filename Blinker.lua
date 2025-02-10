@@ -142,8 +142,7 @@ function Blinker_UI()
                 Blinker_Settings.spell_name = StaticPopup1EditBox:GetText()
                 TooltipFrame_Show(UIParent, "Successfully set to: " .. Blinker_Settings.spell_name)
             else
-                TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0,
-                    0.0)
+                TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0, 0.0)
             end
         end,
         OnCancel = function()
@@ -160,15 +159,21 @@ function Blinker_UI()
     TooltipFrame = CreateFrame("GameTooltip", "BLINKER_UI_FRAME_TOOLTIP", UIParent, "GameTooltipTemplate")
 
     MinimapButtonFrame = CreateFrame("Button", "BLINKER_UI_FRAME_MINIMAP_BUTTON", Minimap)
+    MinimapButtonFrame:EnableMouse(true)
+    MinimapButtonFrame:SetMovable(true)
+    MinimapButtonFrame:SetUserPlaced(true)
+    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT")
+
     MinimapButtonFrame:SetWidth(24)
     MinimapButtonFrame:SetHeight(24)
     MinimapButtonFrame:SetFrameStrata("MEDIUM")
-    MinimapButtonFrame:SetMovable(true)
-    MinimapButtonFrame:EnableMouse(true)
-    MinimapButtonFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
     MinimapButtonFrame:RegisterForClicks("LeftButtonDown", "RightButtonDown");
     MinimapButtonFrame:SetNormalTexture("Interface\\Icons\\Spell_Arcane_Blink")
     MinimapButtonFrame:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+    MinimapButtonFrame:RegisterForDrag("LeftButton")
+    MinimapButtonFrame:SetScript("OnDragStart", function() if IsShiftKeyDown() then MinimapButtonFrame:StartMoving() end end)
+    MinimapButtonFrame:SetScript("OnDragStop", function() MinimapButtonFrame:StopMovingOrSizing() end)
+
     MinimapButtonFrame:SetScript("OnEnter", function(self, event)
         local str = ""
         if _timer_id then
@@ -179,14 +184,12 @@ function Blinker_UI()
 
         TooltipFrame_Show(MinimapButtonFrame, str .. ": " .. Blinker_Settings.spell_name)
     end)
-    MinimapButtonFrame:RegisterForDrag("LeftButton")
-    MinimapButtonFrame:SetScript("OnDragStart", function() if IsShiftKeyDown() then MinimapButtonFrame:StartMoving() end end)
-    MinimapButtonFrame:SetScript("OnDragStop", function() MinimapButtonFrame:StopMovingOrSizing() end)
+
 
 
     MinimapButtonFrame:SetScript("OnClick", function(self)
         if IsShiftKeyDown() then
-            return
+            return nil
         end
 
         if arg1 == "LeftButton" then
