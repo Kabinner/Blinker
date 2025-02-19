@@ -16,7 +16,7 @@ Addon for WoW 1.12.1
 ```
 ```
 Changelog:
-    10/2/25 - Added features
+    19/2/25 - Added features
         Button indicator for enabled/disabled, saves state on logout.
 
     10/2/25 - Bugfix.
