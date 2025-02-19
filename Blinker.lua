@@ -195,11 +195,13 @@ function Blinker_UI()
 
         if arg1 == "LeftButton" then
             if _timer_id then
-                Blinker_Disable()
-                TooltipFrame_Show(MinimapButtonFrame, Blinker_Settings.spell_name .. " is disabled.")
+                if Blinker_Disable() then
+                    TooltipFrame_Show(MinimapButtonFrame, Blinker_Settings.spell_name .. " is disabled.")
+                end
             else
-                Blinker_Enable()
-                TooltipFrame_Show(MinimapButtonFrame, Blinker_Settings.spell_name .. " is enabled.")
+                if Blinker_Enable() then
+                    TooltipFrame_Show(MinimapButtonFrame, Blinker_Settings.spell_name .. " is enabled.")
+                end
             end
         elseif arg1 == "RightButton" then
             StaticPopup_Show("BLINKER_UI_FRAME_DIALOG_SPELL")
@@ -235,8 +237,20 @@ function Blinker_Enable()
     local texture = MinimapButtonFrame:GetNormalTexture()
     texture:SetDesaturated(false)
     texture:SetAlpha(1)
-    Blinker_Settings.enabled = true
+    Blinker_Settings["enabled"] = true
     Print("is enabled.")
+
+    return _timer_id > 0
+end
+function Blinker_Timer_Stop()
+    if _timer_id then
+        if _debug then
+            Print("Blinker_Timer_Stop: id=" .. _timer_id)
+            Status()
+        end
+        UnitXP("timer", "disarm", _timer_id)
+        _timer_id = nil;
+    end
 end
 function Blinker_Disable()
     if not _unitxp_loaded then
@@ -257,31 +271,33 @@ function Blinker_Disable()
     local texture = MinimapButtonFrame:GetNormalTexture()
     texture:SetDesaturated(true)
     texture:SetAlpha(0.5)
-    Blinker_Settings.enabled = false
+    Blinker_Settings["enabled"] = false
     Print("is disabled.")
+
+    return _timer_id == nil
+
 end
 function Blinker_OnLoad()
     this:RegisterEvent("ADDON_LOADED")
     this:RegisterEvent("PLAYER_LOGIN")
     this:RegisterEvent("PLAYER_LOGOUT")
-    this:RegisterEvent("PLAYER_ENTERING_WORLD")
+    this:RegisterEvent("VARIABLES_LOADED")
 end
 function Blinker_OnEvent(event)
     if event == "ADDON_LOADED" and arg1 == "Blinker" then
         if pcall(UnitXP, "nop", "nop") then
             _unitxp_loaded = true
         end
-            
 
+        Blinker_UI()
+        this:UnregisterEvent("ADDON_LOADED")
+    elseif event == "VARIABLES_LOADED" then
         if not Blinker_Settings then
             Blinker_Settings = {
                 spell_name = "Blink",
                 enabled = true
             }
-        end
-
-        Blinker_UI()
-        this:UnregisterEvent("ADDON_LOADED")
+        end   
     elseif event == "PLAYER_LOGIN" then
         if Blinker_Settings.enabled then
             Blinker_Enable()
@@ -290,6 +306,6 @@ function Blinker_OnEvent(event)
         end
         MinimapButtonFrame:Show()
     elseif event == "PLAYER_LOGOUT" then
-        Blinker_Disable()
+        Blinker_Timer_Stop()
     end
 end
