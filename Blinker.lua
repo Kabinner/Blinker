@@ -138,12 +138,19 @@ function Blinker_UI()
         text = "Enter spell name:",
         hasEditBox = true,
         OnAccept = function(self)
-            if SpellId(StaticPopup1EditBox:GetText()) then
+            if Blinker_SetSpell(StaticPopup1EditBox:GetText()) then
                 Blinker_Settings.spell_name = StaticPopup1EditBox:GetText()
                 TooltipFrame_Show(UIParent, "Successfully set to: " .. Blinker_Settings.spell_name)
             else
                 TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0, 0.0)
             end
+
+            -- if SpellId(StaticPopup1EditBox:GetText()) then
+            --     Blinker_Settings.spell_name = StaticPopup1EditBox:GetText()
+            --     TooltipFrame_Show(UIParent, "Successfully set to: " .. Blinker_Settings.spell_name)
+            -- else
+            --     TooltipFrame_Show(UIParent, "Error: " .. StaticPopup1EditBox:GetText() .. " does not exist.", 1.0, 0.0, 0.0)
+            -- end
         end,
         OnCancel = function()
             StaticPopup_Hide("BLINKER_UI_FRAME_DIALOG_SPELL")
@@ -217,6 +224,13 @@ function Blinker()
     end
 end
 
+function Blinker_SetSpell(spell_name)
+    if not SpellId(spell_name) then return false end
+
+    Blinker_Settings.spell_name = spell_name
+    return true
+end
+
 function Blinker_Enable()
     if not _unitxp_loaded then
         Print("cannot load. Dependency UnitXP_SP3 not found. [https://github.com/allfoxwy/UnitXP_SP3].");
@@ -228,15 +242,14 @@ function Blinker_Enable()
     end
 
     _last_spell_cast = GetTime()
-    _timer_id = UnitXP("timer", "arm", 20, 20, "Blinker");
-    if _debug then
-        Print("Blinker_Enable: id=" .. _timer_id);
-        Status()
+    if not _timer_id then
+        _timer_id = UnitXP("timer", "arm", 20, 20, "Blinker");
+        if _debug then
+            Print("Blinker_Enable: id=" .. _timer_id);
+            Status()
+        end
     end
 
-    local texture = MinimapButtonFrame:GetNormalTexture()
-    texture:SetDesaturated(false)
-    texture:SetAlpha(1)
     Blinker_Settings["enabled"] = true
     Print("is enabled.")
 
