@@ -17,7 +17,7 @@ Addon for WoW 1.12.1
 ```
 Changelog:
     19/2/25 - Bugfix
-        Fixed: Enabled/Disabled didn't say due to a bug.
+        Fixed: Enabled/Disabled didn't save due to a bug.
 
     19/2/25 - Added features
         Button indicator for enabled/disabled, saves state on logout.
