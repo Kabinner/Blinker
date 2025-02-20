@@ -8,7 +8,8 @@ Minimap Button:
   Shift: Drag the icon.
 
 Functions:
-  Could be used in macro's. 
+  Could be used in macro's.
+  /script Blinker_SetSpell(spellname) -- returns: true/false
   /script Blinker_Enable()
   /script Blinker_Disable()
 
